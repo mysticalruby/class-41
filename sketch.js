@@ -54,8 +54,7 @@ function setup() {
 function draw() {
   background(255);
 //debug the below code
-  camera.position.x=kangaroo.x+270;
-  
+  kangaroo.x=camera.position.x-270;
   if (gameState===PLAY){
 
     jungle.velocityX=-3
@@ -80,7 +79,7 @@ function draw() {
       collidedSound.play();
       gameState = END;
     }
-    if(kangaroo.isTouching(shrubsGroup)){
+    if(shrubsGroup.isTouching(kangaroo)){
 
       shrubsGroup.destroyEach();
     }
@@ -109,7 +108,7 @@ function spawnShrubs() {
 
   if (frameCount % 150 === 0) {
 //find the bug in the below code
-    var shrub = createSprite(camera.position+500,330,40,10);
+    var shrub = createSprite(camera.position.x+500,330,40,10);
    
 
     shrub.velocityX = -(6 + 3*score/100)
@@ -117,13 +116,14 @@ function spawnShrubs() {
 
     var rand = Math.round(random(1,3));
     //find the bug in the below code
-    switch(random) {
+    switch(rand) {
       case 1: shrub.addImage(shrub1);
-      default:break;
+      break;
       case 2: shrub.addImage(shrub2);
-      
+      break;
       case 3: shrub.addImage(shrub3);
-      
+      break;
+      default:break;
     }
          
     shrub.scale = 0.05;
@@ -137,7 +137,7 @@ function spawnShrubs() {
 }
 
 function spawnObstacles() {
-  if(frameCount % 60 === 0) {
+  if(frameCount % 120 === 0) {
 
     var obstacle = createSprite(camera.position.x+400,330,40,40);
     obstacle.setCollider("rectangle",20,20,20,20)
